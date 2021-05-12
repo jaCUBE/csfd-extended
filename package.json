@@ -1,0 +1,25 @@
+{
+  "name": "csfd-exteded",
+  "version": "2.0.0",
+  "description": "Client-side Javascript for csfd.cz",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaCUBE/csfd-extended.git"
+  },
+  "keywords": [
+    "csfd",
+    "extended",
+    "greasemonkey"
+  ],
+  "author": "Jakub Rychecky <jakub@rychecky.cz>",
+  "license": "WTFPL 2",
+  "bugs": {
+    "url": "https://github.com/jaCUBE/csfd-extended/issues"
+  },
+  "homepage": "https://github.com/jaCUBE/csfd-extended#readme",
+  "dependencies": {
+    "webpack": "^5.37.0",
+    "webpack-cli": "^4.7.0"
+  }
+}
