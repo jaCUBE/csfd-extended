@@ -1,5 +1,10 @@
 # CSFD Extended
 
+## Get started
+1. Install Tampermonkey extension for your browser:
+    - [Tampermonkey for Google Chrome](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en)
+    - [Tampermonkey for Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/)
+
 ## How to develop?
 
 1. Clone this repository.
