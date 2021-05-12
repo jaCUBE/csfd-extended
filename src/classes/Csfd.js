@@ -25,12 +25,15 @@ export default class Csfd {
             })
             .html(imdbVotes);
 
-        let imdbRatingBox = $('<div>')
+        let imdbRatingBox = $('<a>')
             .addClass('rating-average csfd-extended-imdb-rating')
             .css({
+                'display': 'block',
                 'background': '#f5c518',
-                'color': '#000000'
+                'color': '#000000',
+                'cursor': 'pointer'
             })
+            .attr('href', 'https://www.imdb.com/title/' + this.getImdbCode())
             .html(imdbRating)
             .append(imdbVotesSpan);
 
