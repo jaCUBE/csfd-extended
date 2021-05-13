@@ -91,4 +91,8 @@ export default class Csfd {
         csfdRatingBox.append(starsElement);
     }
 
+    isRated() {
+        return this.csfdPage.find('.box-rating-container .not-rated').length === 0;
+    }
+
 }

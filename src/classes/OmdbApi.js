@@ -13,7 +13,7 @@ export default class OmdbApi {
     getResponse() {
         let imdbCode = this.csfd.getImdbCode();
 
-        if (imdbCode === null) {
+        if (imdbCode === null || !this.csfd.isRated()) {
             return;
         }
 

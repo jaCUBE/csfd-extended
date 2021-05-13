@@ -96,6 +96,10 @@ class Csfd {
         csfdRatingBox.append(starsElement);
     }
 
+    isRated() {
+        return this.csfdPage.find('.box-rating-container .not-rated').length === 0;
+    }
+
 }
 
 ;// CONCATENATED MODULE: ./src/classes/OmdbApi.js
@@ -114,7 +118,7 @@ class OmdbApi {
     getResponse() {
         let imdbCode = this.csfd.getImdbCode();
 
-        if (imdbCode === null) {
+        if (imdbCode === null || !this.csfd.isRated()) {
             return;
         }
 
