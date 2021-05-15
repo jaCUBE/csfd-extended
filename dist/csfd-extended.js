@@ -95,7 +95,7 @@ class ImdbRating {
             .html(imdbRating)
             .append(imdbVotesSpan);
 
-        imdbRatingBox.insertAfter(this.csfd.csfdPage.find('.rating-average-withtabs'));
+        imdbRatingBox.insertBefore(this.csfd.csfdPage.find('.rating-fan-switch'));
     }
 
 }
