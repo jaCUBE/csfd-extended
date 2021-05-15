@@ -72,7 +72,7 @@ export default class Toolbar {
             iconClass = 'icon-folder';
         }
 
-        return $('<a>')
+        let button = $('<a>')
             .attr('href', url)
             .addClass('button button-big')
             .css({
@@ -80,6 +80,23 @@ export default class Toolbar {
                 'color': fontColor,
             })
             .html('<i class="icon ' + iconClass + '"></i>' + name);
+
+        button.hover(
+            (e) => {
+                $(e.target).animate({
+                    'opacity': 1.0,
+                });
+            },
+            (e) => {
+                $(e.target).animate({
+                    'opacity': 0.8,
+                });
+            },
+        );
+
+        button.trigger('mouseleave');
+
+        return button;
     }
 
 }
