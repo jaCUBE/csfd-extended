@@ -1,14 +1,14 @@
-export default class UserStars {
+export default class UserRating {
 
     constructor(
         csfd
     ) {
         this.csfd = csfd;
 
-        this.initializeUserStars();
+        this.initializeUserRating();
     }
 
-    initializeUserStars() {
+    initializeUserRating() {
         let currentUserRating = this.csfd.getCurrentUserRating();
 
         if (currentUserRating === null) {
