@@ -16,9 +16,9 @@ export default class WantToWatch {
         let wantToWatch = $('<a>')
             .attr('href', '?name=watchlist&do=modalWindow')
             .css({
-                'background': '#e3e3e3',
+                'background': '#ba034f',
                 'border-top': '1px solid #d2d2d2',
-                'color': '#8c0204',
+                'color': '#FFFFFF',
                 'display': 'block',
                 'opacity': 0.8,
                 'padding': '5px',
