@@ -1,4 +1,4 @@
-export default class OmdbApi {
+export default class Omdb {
 
     constructor(
         csfd,

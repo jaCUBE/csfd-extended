@@ -114,8 +114,8 @@ class Csfd {
 
 }
 
-;// CONCATENATED MODULE: ./src/classes/OmdbApi.js
-class OmdbApi {
+;// CONCATENATED MODULE: ./src/classes/OmdbData.js
+class OmdbData {
 
     constructor(
         csfd,
@@ -249,7 +249,7 @@ class Toolbar {
 
 
 let csfd = new Csfd($('div.page-content'));
-let omdbApi = new OmdbApi(csfd, 'ee2fe641');
+let omdbData = new OmdbData(csfd, 'ee2fe641');
 let toolbar = new Toolbar(csfd);
 
 csfd.createCurrentUserRatingStars();
