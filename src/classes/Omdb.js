@@ -26,7 +26,7 @@ export default class Omdb {
                 apikey: this.omdbApiKey,
                 i: imdbCode,
                 r: 'json'
-            }
+            },
         });
 
         request.done((response) => {
