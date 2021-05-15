@@ -31,7 +31,7 @@ export default class Toolbar {
                 'https://www.google.cz/search?q=' + encodedMovieName
             ),
             this.createButton(
-                'YoutTube',
+                'YouTube',
                 null,
                 'https://www.youtube.com/results?search_query=' + encodedMovieName
             ),
