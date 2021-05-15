@@ -1,3 +1,5 @@
+import ImdbRating from "./ImdbRating";
+
 export default class Omdb {
 
     constructor(
@@ -28,7 +30,8 @@ export default class Omdb {
         });
 
         request.done((response) => {
-            this.csfd.createImdbRatingBox(
+            new ImdbRating(
+                this.csfd,
                 response.imdbRating,
                 response.imdbVotes
             )
