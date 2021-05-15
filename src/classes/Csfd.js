@@ -95,4 +95,16 @@ export default class Csfd {
         return this.csfdPage.find('.box-rating-container .not-rated').length === 0;
     }
 
+    getMovieName() {
+        let title = $('meta[property=\'og:title\']').attr('content');
+        title = title.replace(/\(TV seriál\)/, '');
+        title = title.replace(/\(TV film\)/, '');
+        let titleRegex = title.match(/(.+)\((\d{4})\)/);
+
+        let name = titleRegex[1];
+        name = name.replace(/.+\//, '');
+
+        return $.trim(name);
+    }
+
 }
