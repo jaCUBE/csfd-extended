@@ -34,6 +34,10 @@ export default class Csfd {
         return this.csfdPage.find('.box-rating-container .not-rated').length === 0;
     }
 
+    isMarkedAsWantToWatch() {
+        return this.csfdPage.find('.control-panel').text().includes('Upravit ve Chci vidět');
+    }
+
     getMovieName() {
         let title = $('meta[property=\'og:title\']').attr('content');
         title = title.replace(/\(TV seriál\)/, '');

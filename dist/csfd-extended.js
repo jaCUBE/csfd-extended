@@ -39,6 +39,10 @@ class Csfd {
         return this.csfdPage.find('.box-rating-container .not-rated').length === 0;
     }
 
+    isMarkedAsWantToWatch() {
+        return this.csfdPage.find('.control-panel').text().includes('Upravit ve Chci vidět');
+    }
+
     getMovieName() {
         let title = $('meta[property=\'og:title\']').attr('content');
         title = title.replace(/\(TV seriál\)/, '');
@@ -273,7 +277,55 @@ class UserStars {
 
 }
 
+;// CONCATENATED MODULE: ./src/classes/WantToWatch.js
+class WantToWatch {
+
+    constructor(
+        csfd
+    ) {
+        this.csfd = csfd;
+
+        this.initializeWantToWatch();
+    }
+
+    initializeWantToWatch() {
+        if (!this.csfd.isMarkedAsWantToWatch()) {
+            return;
+        }
+
+        let wantToWatch = $('<a>')
+            .attr('href', '?name=watchlist&do=modalWindow')
+            .css({
+                'background': '#e3e3e3',
+                'border-top': '1px solid #d2d2d2',
+                'color': '#8c0204',
+                'display': 'block',
+                'opacity': 0.8,
+                'padding': '5px',
+                'text-align': 'center',
+            })
+            .html('👁️ Chci vidět');
+
+        wantToWatch.hover(
+            (e) => {
+                $(e.target).animate({
+                    'opacity': 1.0,
+                });
+            },
+            (e) => {
+                $(e.target).animate({
+                    'opacity': 0.8,
+                });
+            },
+        );
+
+        this.csfd.csfdPage.find('.tabs.tabs-rating.rating-fan-switch').prepend(wantToWatch);
+    }
+
+}
+
 ;// CONCATENATED MODULE: ./src/index.js
+
 
 
 
@@ -282,6 +334,7 @@ class UserStars {
 let csfd = new Csfd($('div.page-content'));
 let omdb = new Omdb(csfd, 'ee2fe641');
 let userStars = new UserStars(csfd);
+let wantToWatch = new WantToWatch(csfd);
 let toolbar = new Toolbar(csfd);
 
 /******/ })()
