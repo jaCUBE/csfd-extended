@@ -35,7 +35,10 @@ export default class Csfd {
     }
 
     isMarkedAsWantToWatch() {
-        return this.csfdPage.find('.control-panel').text().includes('Upravit ve Chci vidět');
+        let controlPanelText = this.csfdPage.find('.control-panel').text();
+
+        return controlPanelText.includes('Upravit ve Chci vidět')
+            || controlPanelText.includes('Upraviť v Chcem vidieť');
     }
 
     getMovieName() {
