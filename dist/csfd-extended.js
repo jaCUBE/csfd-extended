@@ -87,7 +87,7 @@ class ImdbRating {
             .addClass('rating-average csfd-extended-imdb-rating')
             .css({
                 'display': 'block',
-                'background': '#f5c518',
+                'background': '#F5C518',
                 'color': '#000000',
                 'cursor': 'pointer',
             })
@@ -216,7 +216,7 @@ class Toolbar {
         let iconClass = 'icon-globe-circle';
 
         if (style === 'pirate') {
-            backgroundColor = '#a2a2a2';
+            backgroundColor = '#A2A2A2';
             iconClass = 'icon-folder';
         }
 
@@ -313,8 +313,8 @@ class WantToWatch {
         let wantToWatch = $('<a>')
             .attr('href', '?name=watchlist&do=modalWindow')
             .css({
-                'background': '#ba034f',
-                'border-top': '1px solid #d2d2d2',
+                'background': '#BA034F',
+                'border-top': '1px solid #D2D2D2',
                 'color': '#FFFFFF',
                 'display': 'block',
                 'opacity': 0.8,

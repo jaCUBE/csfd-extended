@@ -27,7 +27,7 @@ export default class ImdbRating {
             .addClass('rating-average csfd-extended-imdb-rating')
             .css({
                 'display': 'block',
-                'background': '#f5c518',
+                'background': '#F5C518',
                 'color': '#000000',
                 'cursor': 'pointer',
             })

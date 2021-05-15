@@ -68,7 +68,7 @@ export default class Toolbar {
         let iconClass = 'icon-globe-circle';
 
         if (style === 'pirate') {
-            backgroundColor = '#a2a2a2';
+            backgroundColor = '#A2A2A2';
             iconClass = 'icon-folder';
         }
 
