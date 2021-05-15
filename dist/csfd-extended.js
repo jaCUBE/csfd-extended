@@ -63,39 +63,6 @@ class Csfd {
         }
     }
 
-    createCurrentUserRatingStars() {
-        let currentUserRating = this.getCurrentUserRating();
-
-        if (currentUserRating === null) {
-            return;
-        }
-
-        let csfdRatingBox = this.csfdPage.find('.box-rating .rating-average-withtabs');
-
-        csfdRatingBox.css({
-            'line-heigt': '30px',
-        });
-
-        let starsElement = $('<span>')
-            .css({
-                'display': 'block',
-                'font-size': '16px',
-                'line-height': '30px',
-                'margin-top': '-12px',
-            });
-
-        if (currentUserRating > 0) {
-            for (let renderStars = 0; renderStars < currentUserRating; renderStars++) {
-                starsElement.text(starsElement.text() + '★');
-            }
-        } else {
-            starsElement.text(':(');
-        }
-
-
-        csfdRatingBox.append(starsElement);
-    }
-
     isRated() {
         return this.csfdPage.find('.box-rating-container .not-rated').length === 0;
     }
@@ -114,8 +81,8 @@ class Csfd {
 
 }
 
-;// CONCATENATED MODULE: ./src/classes/OmdbData.js
-class OmdbData {
+;// CONCATENATED MODULE: ./src/classes/Omdb.js
+class Omdb {
 
     constructor(
         csfd,
@@ -243,16 +210,61 @@ class Toolbar {
 
 }
 
+;// CONCATENATED MODULE: ./src/classes/UserStars.js
+class UserStars {
+
+    constructor(
+        csfd
+    ) {
+        this.csfd = csfd;
+
+        this.initializeUserStars();
+    }
+
+    initializeUserStars() {
+        let currentUserRating = this.csfd.getCurrentUserRating();
+
+        if (currentUserRating === null) {
+            return;
+        }
+
+        let csfdRatingBox = this.csfd.csfdPage.find('.box-rating .rating-average-withtabs');
+
+        csfdRatingBox.css({
+            'line-heigt': '30px',
+        });
+
+        let starsElement = $('<span>')
+            .css({
+                'display': 'block',
+                'font-size': '16px',
+                'line-height': '30px',
+                'margin-top': '-12px',
+            });
+
+        if (currentUserRating > 0) {
+            for (let renderStars = 0; renderStars < currentUserRating; renderStars++) {
+                starsElement.text(starsElement.text() + '★');
+            }
+        } else {
+            starsElement.text(':(');
+        }
+
+        csfdRatingBox.append(starsElement);
+    }
+
+}
+
 ;// CONCATENATED MODULE: ./src/index.js
 
 
 
 
-let csfd = new Csfd($('div.page-content'));
-let omdbData = new OmdbData(csfd, 'ee2fe641');
-let toolbar = new Toolbar(csfd);
 
-csfd.createCurrentUserRatingStars();
+let csfd = new Csfd($('div.page-content'));
+let omdb = new Omdb(csfd, 'ee2fe641');
+let userStars = new UserStars(csfd);
+let toolbar = new Toolbar(csfd);
 
 /******/ })()
 ;
