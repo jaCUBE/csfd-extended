@@ -35,6 +35,16 @@ class Csfd {
         }
     }
 
+    getCurrentUserRatingDate() {
+        let ratingDateInText = this.csfdPage.find('.current-user-rating > span').attr('title');
+
+        if (ratingDateInText.length === 0) {
+            return null;
+        }
+
+        return ratingDateInText.match(/.+(\d{2}\.\d{2}\.\d{4})$/)[1];
+    }
+
     isRated() {
         return this.csfdPage.find('.box-rating-container .not-rated').length === 0;
     }
@@ -252,18 +262,18 @@ class Toolbar {
 
 }
 
-;// CONCATENATED MODULE: ./src/classes/UserStars.js
-class UserStars {
+;// CONCATENATED MODULE: ./src/classes/UserRating.js
+class UserRating {
 
     constructor(
         csfd
     ) {
         this.csfd = csfd;
 
-        this.initializeUserStars();
+        this.initializeUserRating();
     }
 
-    initializeUserStars() {
+    initializeUserRating() {
         let currentUserRating = this.csfd.getCurrentUserRating();
 
         if (currentUserRating === null) {
@@ -279,15 +289,27 @@ class UserStars {
         let starsElement = $('<span>')
             .css({
                 'display': 'block',
-                'font-size': '16px',
+                'font-size': '20px',
                 'line-height': '30px',
+                'margin-left': '12px',
                 'margin-top': '-12px',
+                'text-align': 'left',
             });
+
+        let dateElement = $('<span>')
+            .css({
+                'font-size': '10px',
+                'line-height': '20px',
+                'margin-left': '20px',
+                'opacity': 0.7,
+            })
+            .text(this.csfd.getCurrentUserRatingDate());
 
         if (currentUserRating > 0) {
             for (let renderStars = 0; renderStars < currentUserRating; renderStars++) {
                 starsElement.text(starsElement.text() + '★');
             }
+            starsElement.append(dateElement);
         } else {
             starsElement.text(':(');
         }
@@ -353,7 +375,7 @@ class WantToWatch {
 
 let csfd = new Csfd($('div.page-content'));
 let omdb = new Omdb(csfd, 'ee2fe641');
-let userStars = new UserStars(csfd);
+let userRating = new UserRating(csfd);
 let wantToWatch = new WantToWatch(csfd);
 let toolbar = new Toolbar(csfd);
 

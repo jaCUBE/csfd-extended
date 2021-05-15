@@ -30,6 +30,16 @@ export default class Csfd {
         }
     }
 
+    getCurrentUserRatingDate() {
+        let ratingDateInText = this.csfdPage.find('.current-user-rating > span').attr('title');
+
+        if (ratingDateInText.length === 0) {
+            return null;
+        }
+
+        return ratingDateInText.match(/.+(\d{2}\.\d{2}\.\d{4})$/)[1];
+    }
+
     isRated() {
         return this.csfdPage.find('.box-rating-container .not-rated').length === 0;
     }
