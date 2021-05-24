@@ -78,18 +78,19 @@ export default class Toolbar {
             .css({
                 'background-color': backgroundColor,
                 'color': fontColor,
+                'padding-left': '6px',
             })
             .html('<i class="icon ' + iconClass + '"></i>' + name);
 
         button.hover(
             (e) => {
-                $(e.target).animate({
+                $(e.target).css({
                     'opacity': 1.0,
                 });
             },
             (e) => {
-                $(e.target).animate({
-                    'opacity': 0.8,
+                $(e.target).css({
+                    'opacity': 0.95,
                 });
             },
         );
