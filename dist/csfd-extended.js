@@ -120,10 +120,12 @@ class Omdb {
 
     constructor(
         csfd,
-        omdbApiKey
+        omdbApiKey,
+        cache
     ) {
         this.csfd = csfd;
         this.omdbApiKey = omdbApiKey;
+        this.cache = cache;
 
         this.getResponse();
     }
@@ -132,6 +134,20 @@ class Omdb {
         let imdbCode = this.csfd.getImdbCode();
 
         if (imdbCode === null || !this.csfd.isRated()) {
+            return;
+        }
+
+        let cacheItem = this.cache.getItem(imdbCode);
+
+        if (cacheItem !== null && !this.cache.isItemExpired(cacheItem)) {
+            let responseFromCache = cacheItem.value;
+
+            new ImdbRating(
+                this.csfd,
+                responseFromCache.imdbRating,
+                responseFromCache.imdbVotes
+            );
+
             return;
         }
 
@@ -146,6 +162,8 @@ class Omdb {
         });
 
         request.done((response) => {
+            this.cache.saveItem(imdbCode, response);
+
             new ImdbRating(
                 this.csfd,
                 response.imdbRating,
@@ -452,6 +470,73 @@ class ImageFloatingPreview {
 
 }
 
+;// CONCATENATED MODULE: ./src/classes/CacheItem.js
+class CacheItem {
+
+    constructor(
+        name,
+        value,
+        expireAt
+    ) {
+        this.name = name;
+        this.expireAt = expireAt;
+        this.value = value;
+    }
+
+}
+
+;// CONCATENATED MODULE: ./src/classes/Cache.js
+
+
+class Cache {
+
+    constructor(
+        expirationInSeconds
+    ) {
+        this.expirationInSeconds = 600;
+        this.namespace = 'csfd-extended';
+    }
+
+    saveItem(
+        key,
+        value
+    ) {
+        let cacheItem = new CacheItem(
+            this.addNamespaceToName(key),
+            value,
+            Math.floor(Date.now() / 1000) + this.expirationInSeconds
+        )
+
+        localStorage.setItem(
+            this.addNamespaceToName(key),
+            JSON.stringify(cacheItem)
+        )
+    }
+
+    getItem(
+        key
+    ) {
+        let cacheItem = localStorage.getItem(
+            this.addNamespaceToName(key)
+        );
+
+        return cacheItem !== null
+            ? JSON.parse(cacheItem)
+            : null;
+    }
+
+    isItemExpired(
+        caheItem
+    ) {
+        return caheItem.expireAt < Math.floor(Date.now() / 1000);
+    }
+
+    addNamespaceToName(name) {
+        return this.namespace + '.' + name;
+    }
+
+}
+
 ;// CONCATENATED MODULE: ./src/index.js
 
 
@@ -460,8 +545,11 @@ class ImageFloatingPreview {
 
 
 
+
+let cache = new Cache(7 * 24 * 3600);
+
 let csfd = new Csfd($('div.page-content'));
-let omdb = new Omdb(csfd, 'ee2fe641');
+let omdb = new Omdb(csfd, 'ee2fe641', cache);
 let userRating = new UserRating(csfd);
 let wantToWatch = new WantToWatch(csfd);
 let toolbar = new Toolbar(csfd);
