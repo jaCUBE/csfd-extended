@@ -28,7 +28,6 @@ export default class ImdbRating {
             .addClass('rating-average csfd-extended-imdb-rating')
             .css({
                 'display': 'block',
-                'background': '#F5C518',
                 'color': '#000000',
                 'cursor': 'pointer',
                 'line-height': '60px',
@@ -36,6 +35,21 @@ export default class ImdbRating {
             .attr('href', 'https://www.imdb.com/title/' + this.csfd.getImdbCode())
             .html(imdbRating)
             .append(imdbVotesSpan);
+
+        imdbRatingBox
+            .hover(
+                (e) => {
+                    imdbRatingBox.css({
+                        'background': '#F5BE18FF',
+                    })
+                },
+                (e) => {
+                    imdbRatingBox.css({
+                        'background': '#F5C518',
+                    })
+                },
+            )
+            .trigger('mouseleave');
 
         imdbRatingBox.insertBefore(this.csfd.csfdPage.find('.rating-fan-switch'));
     }
