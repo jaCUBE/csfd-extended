@@ -4,6 +4,10 @@ export default class Csfd {
         this.csfdPage = csfdPage
     }
 
+    isLoggedIn() {
+        return this.csfdPage.find('.my-rating').length > 0;
+    }
+
     getImdbCode() {
         let imdbButton = this.csfdPage.find('a.button-imdb');
 

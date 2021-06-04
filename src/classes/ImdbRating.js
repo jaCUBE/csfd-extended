@@ -51,7 +51,7 @@ export default class ImdbRating {
             )
             .trigger('mouseleave');
 
-        imdbRatingBox.insertBefore(this.csfd.csfdPage.find('.rating-fan-switch'));
+        imdbRatingBox.insertBefore(this.csfd.csfdPage.find('.my-rating'));
     }
 
 }

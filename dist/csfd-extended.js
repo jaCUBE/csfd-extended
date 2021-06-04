@@ -9,6 +9,10 @@ class Csfd {
         this.csfdPage = csfdPage
     }
 
+    isLoggedIn() {
+        return this.csfdPage.find('.my-rating').length > 0;
+    }
+
     getImdbCode() {
         let imdbButton = this.csfdPage.find('a.button-imdb');
 
@@ -124,7 +128,7 @@ class ImdbRating {
             )
             .trigger('mouseleave');
 
-        imdbRatingBox.insertBefore(this.csfd.csfdPage.find('.rating-fan-switch'));
+        imdbRatingBox.insertBefore(this.csfd.csfdPage.find('.my-rating'));
     }
 
 }
