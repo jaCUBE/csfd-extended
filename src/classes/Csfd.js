@@ -16,28 +16,10 @@ export default class Csfd {
             : null;
     }
 
-    getCurrentUserRating() {
-        let rating = this.csfdPage.find('.current-user-rating .stars');
-
-        if (rating.length === 0) {
-            return null;
-        }
-
-        if (rating.find('.trash').length > 0) {
-            return 0;
-        }
-
-        for(let stars = 0; stars <= 5; stars++) {
-            if (rating.hasClass('stars-' + stars)) {
-                return stars;
-            }
-        }
-    }
-
     getCurrentUserRatingDate() {
         let ratingDateInText = this.csfdPage.find('.current-user-rating > span').attr('title');
 
-        if (ratingDateInText.length === 0) {
+        if (ratingDateInText === undefined) {
             return null;
         }
 

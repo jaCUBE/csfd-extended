@@ -21,28 +21,10 @@ class Csfd {
             : null;
     }
 
-    getCurrentUserRating() {
-        let rating = this.csfdPage.find('.current-user-rating .stars');
-
-        if (rating.length === 0) {
-            return null;
-        }
-
-        if (rating.find('.trash').length > 0) {
-            return 0;
-        }
-
-        for(let stars = 0; stars <= 5; stars++) {
-            if (rating.hasClass('stars-' + stars)) {
-                return stars;
-            }
-        }
-    }
-
     getCurrentUserRatingDate() {
         let ratingDateInText = this.csfdPage.find('.current-user-rating > span').attr('title');
 
-        if (ratingDateInText.length === 0) {
+        if (ratingDateInText === undefined) {
             return null;
         }
 
@@ -313,47 +295,19 @@ class UserRating {
     }
 
     initializeUserRating() {
-        let currentUserRating = this.csfd.getCurrentUserRating();
+        let currentUserRatingDate = this.csfd.getCurrentUserRatingDate();
 
-        if (currentUserRating === null) {
+        if (currentUserRatingDate === null) {
             return;
         }
 
-        let csfdRatingBox = this.csfd.csfdPage.find('.box-rating .rating-average-withtabs');
+        let currentUserRatingBoxTitle = this.csfd.csfdPage.find('.my-rating h3');
 
-        csfdRatingBox.css({
-            'line-heigt': '30px',
-        });
-
-        let starsElement = $('<span>')
-            .css({
-                'display': 'block',
-                'font-size': '20px',
-                'line-height': '30px',
-                'margin-left': '12px',
-                'margin-top': '-12px',
-                'text-align': 'left',
-            });
-
-        let dateElement = $('<span>')
-            .css({
-                'font-size': '10px',
-                'line-height': '20px',
-                'margin-left': '20px',
-                'opacity': 0.7,
-            })
-            .text(this.csfd.getCurrentUserRatingDate());
-
-        if (currentUserRating > 0) {
-            for (let renderStars = 0; renderStars < currentUserRating; renderStars++) {
-                starsElement.text(starsElement.text() + '★');
-            }
-            starsElement.append(dateElement);
-        } else {
-            starsElement.text(':(');
+        if (currentUserRatingBoxTitle.length === 0) {
+            return;
         }
 
-        csfdRatingBox.append(starsElement);
+        currentUserRatingBoxTitle.text('Hodnoceno ' + currentUserRatingDate);
     }
 
 }
