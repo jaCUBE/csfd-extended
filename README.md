@@ -23,7 +23,7 @@
 
     ```
     // ==UserScript==
-    // @name         [DEV] CSFD Extedned
+    // @name         [DEV] CSFD Extended
     // @description  DEVELOPER VERSION. Make your eyes *not* to bleed with new board.
     // @include      *csfd.cz/film/*
     // @require      <------REPLACE-ME-WITH-YOUR-FILEPATH------>
