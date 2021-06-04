@@ -41,4 +41,8 @@ export default class Csfd {
         return $.trim($('[itemprop="name"]').text());
     }
 
+    getMovieYear() {
+        return $.trim($('[itemprop="dateCreated"]').text());
+    }
+
 }
