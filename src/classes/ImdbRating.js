@@ -14,6 +14,15 @@ export default class ImdbRating {
         imdbRating,
         imdbVotes
     ) {
+        if (
+            imdbRating === undefined
+            || imdbRating === 'N/A'
+            || imdbVotes === undefined
+            || imdbVotes === 'N/A'
+        ) {
+            return;
+        }
+
         let imdbVotesSpan = $('<span>')
             .css({
                 'display': 'block',
