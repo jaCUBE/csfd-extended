@@ -46,7 +46,12 @@ export default class Omdb {
         });
 
         request.done((response) => {
-            this.cache.saveItem(imdbCode, response);
+            if (
+                response.imdbRating === undefined
+                && response.imdbRating === 'N/A'
+            ) {
+                this.cache.saveItem(imdbCode, response);
+            }
 
             new ImdbRating(
                 this.csfd,
