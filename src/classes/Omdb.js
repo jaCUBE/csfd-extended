@@ -17,7 +17,7 @@ export default class Omdb {
     getResponse() {
         let imdbCode = this.csfd.getImdbCode();
 
-        if (imdbCode === null || !this.csfd.isRated()) {
+        if (imdbCode === null) {
             return;
         }
 

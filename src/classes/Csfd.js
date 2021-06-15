@@ -26,10 +26,6 @@ export default class Csfd {
         return ratingDateInText.match(/.+(\d{2}\.\d{2}\.\d{4})$/)[1];
     }
 
-    isRated() {
-        return this.csfdPage.find('.box-rating-container .not-rated').length === 0;
-    }
-
     isMarkedAsWantToWatch() {
         let controlPanelText = this.csfdPage.find('.control-panel').text();
 
