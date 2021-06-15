@@ -47,8 +47,8 @@ export default class Omdb {
 
         request.done((response) => {
             if (
-                response.imdbRating === undefined
-                && response.imdbRating === 'N/A'
+                response.imdbRating !== undefined
+                && response.imdbRating !== 'N/A'
             ) {
                 this.cache.saveItem(imdbCode, response);
             }
