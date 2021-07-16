@@ -9,6 +9,10 @@ class Csfd {
         this.csfdPage = csfdPage
     }
 
+    isLoggedIn() {
+        return this.csfdPage.find('.my-rating').length > 0;
+    }
+
     getImdbCode() {
         let imdbButton = this.csfdPage.find('a.button-imdb');
 
@@ -17,28 +21,10 @@ class Csfd {
             : null;
     }
 
-    getCurrentUserRating() {
-        let rating = this.csfdPage.find('.current-user-rating .stars');
-
-        if (rating.length === 0) {
-            return null;
-        }
-
-        if (rating.find('.trash').length > 0) {
-            return 0;
-        }
-
-        for(let stars = 0; stars <= 5; stars++) {
-            if (rating.hasClass('stars-' + stars)) {
-                return stars;
-            }
-        }
-    }
-
     getCurrentUserRatingDate() {
         let ratingDateInText = this.csfdPage.find('.current-user-rating > span').attr('title');
 
-        if (ratingDateInText.length === 0) {
+        if (ratingDateInText === undefined) {
             return null;
         }
 
@@ -57,15 +43,11 @@ class Csfd {
     }
 
     getMovieName() {
-        let title = $('meta[property=\'og:title\']').attr('content');
-        title = title.replace(/\(TV seriál\)/, '');
-        title = title.replace(/\(TV film\)/, '');
-        let titleRegex = title.match(/(.+)\((\d{4})\)/);
+        return $.trim($('[itemprop="name"]').text());
+    }
 
-        let name = titleRegex[1];
-        name = name.replace(/.+\//, '');
-
-        return $.trim(name);
+    getMovieYear() {
+        return $.trim($('[itemprop="dateCreated"]').text());
     }
 
 }
@@ -90,25 +72,41 @@ class ImdbRating {
         let imdbVotesSpan = $('<span>')
             .css({
                 'display': 'block',
-                'font-size': '11px',
-                'line-height': '15px',
-                'padding-bottom': '10px',
+                'font-size': '9px',
+                'font-weight': 'normal',
+                'line-height': '10px',
+                'padding-bottom': '8px',
             })
-            .html(imdbVotes);
+            .html('<strong>' + imdbVotes + '</strong> hlasů');
 
         let imdbRatingBox = $('<a>')
             .addClass('rating-average csfd-extended-imdb-rating')
             .css({
                 'display': 'block',
-                'background': '#F5C518',
                 'color': '#000000',
                 'cursor': 'pointer',
+                'line-height': '60px',
             })
             .attr('href', 'https://www.imdb.com/title/' + this.csfd.getImdbCode())
             .html(imdbRating)
             .append(imdbVotesSpan);
 
-        imdbRatingBox.insertBefore(this.csfd.csfdPage.find('.rating-fan-switch'));
+        imdbRatingBox
+            .hover(
+                (e) => {
+                    imdbRatingBox.css({
+                        'background': '#F5BE18FF',
+                    })
+                },
+                (e) => {
+                    imdbRatingBox.css({
+                        'background': '#F5C518',
+                    })
+                },
+            )
+            .trigger('mouseleave');
+
+        imdbRatingBox.insertBefore(this.csfd.csfdPage.find('.my-rating'));
     }
 
 }
@@ -120,10 +118,12 @@ class Omdb {
 
     constructor(
         csfd,
-        omdbApiKey
+        omdbApiKey,
+        cache
     ) {
         this.csfd = csfd;
         this.omdbApiKey = omdbApiKey;
+        this.cache = cache;
 
         this.getResponse();
     }
@@ -132,6 +132,20 @@ class Omdb {
         let imdbCode = this.csfd.getImdbCode();
 
         if (imdbCode === null || !this.csfd.isRated()) {
+            return;
+        }
+
+        let cacheItem = this.cache.getItem(imdbCode);
+
+        if (cacheItem !== null && !this.cache.isItemExpired(cacheItem)) {
+            let responseFromCache = cacheItem.value;
+
+            new ImdbRating(
+                this.csfd,
+                responseFromCache.imdbRating,
+                responseFromCache.imdbVotes
+            );
+
             return;
         }
 
@@ -146,6 +160,8 @@ class Omdb {
         });
 
         request.done((response) => {
+            this.cache.saveItem(imdbCode, response);
+
             new ImdbRating(
                 this.csfd,
                 response.imdbRating,
@@ -173,13 +189,13 @@ class Toolbar {
         let boxButtons = this.csfd.csfdPage.find('.box-rating-container .box-buttons');
 
         let imdbCode = this.csfd.getImdbCode();
-        let encodedMovieName = encodeURIComponent(this.csfd.getMovieName());
+        let encodedMovieNameWithYear = encodeURIComponent(this.csfd.getMovieName() + ' ' + this.csfd.getMovieYear());
 
         boxButtons.prepend(
             this.createButton(
                 'Titulky.com',
                 null,
-                'http://www.titulky.com/?Fulltext=' + encodedMovieName
+                'http://www.titulky.com/?Fulltext=' + encodedMovieNameWithYear
             ),
             this.createButton(
                 'Trakt.TV',
@@ -189,32 +205,32 @@ class Toolbar {
             this.createButton(
                 'Google',
                 null,
-                'https://www.google.cz/search?q=' + encodedMovieName
+                'https://www.google.cz/search?q=' + encodedMovieNameWithYear
             ),
             this.createButton(
                 'YouTube',
                 null,
-                'https://www.youtube.com/results?search_query=' + encodedMovieName
+                'https://www.youtube.com/results?search_query=' + encodedMovieNameWithYear
             ),
             this.createButton(
                 'BoxOffice',
                 null,
-                'http://www.boxofficemojo.com/search/?q=' + encodedMovieName
+                'http://www.boxofficemojo.com/search/?q=' + encodedMovieNameWithYear
             ),
             this.createButton(
                 'Uloz.to',
                 'pirate',
-                'http://www.uloz.to/hledej?media=video&protected=notPassword&redir=0&q=' + encodedMovieName
+                'http://www.uloz.to/hledej?media=video&protected=notPassword&redir=0&q=' + encodedMovieNameWithYear
             ),
             this.createButton(
                 'YIFY',
                 'pirate',
-                'https://www.google.cz/search?q=' + encodedMovieName + ' site:yts.ag OR site:yify-movies.net OR site:yify-movie.com'
+                'https://www.google.cz/search?q=' + encodedMovieNameWithYear + ' site:yts.ag OR site:yify-movies.net OR site:yify-movie.com'
             ),
             this.createButton(
                 'Torrent',
                 'pirate',
-                'http://www.aiosearch.com/search/4/Torrents/' + encodedMovieName
+                'http://www.aiosearch.com/search/4/Torrents/' + encodedMovieNameWithYear
             ),
         );
     }
@@ -239,18 +255,19 @@ class Toolbar {
             .css({
                 'background-color': backgroundColor,
                 'color': fontColor,
+                'padding-left': '6px',
             })
             .html('<i class="icon ' + iconClass + '"></i>' + name);
 
         button.hover(
             (e) => {
-                $(e.target).animate({
+                $(e.target).css({
                     'opacity': 1.0,
                 });
             },
             (e) => {
-                $(e.target).animate({
-                    'opacity': 0.8,
+                $(e.target).css({
+                    'opacity': 0.95,
                 });
             },
         );
@@ -274,47 +291,19 @@ class UserRating {
     }
 
     initializeUserRating() {
-        let currentUserRating = this.csfd.getCurrentUserRating();
+        let currentUserRatingDate = this.csfd.getCurrentUserRatingDate();
 
-        if (currentUserRating === null) {
+        if (currentUserRatingDate === null) {
             return;
         }
 
-        let csfdRatingBox = this.csfd.csfdPage.find('.box-rating .rating-average-withtabs');
+        let currentUserRatingBoxTitle = this.csfd.csfdPage.find('.my-rating h3');
 
-        csfdRatingBox.css({
-            'line-heigt': '30px',
-        });
-
-        let starsElement = $('<span>')
-            .css({
-                'display': 'block',
-                'font-size': '20px',
-                'line-height': '30px',
-                'margin-left': '12px',
-                'margin-top': '-12px',
-                'text-align': 'left',
-            });
-
-        let dateElement = $('<span>')
-            .css({
-                'font-size': '10px',
-                'line-height': '20px',
-                'margin-left': '20px',
-                'opacity': 0.7,
-            })
-            .text(this.csfd.getCurrentUserRatingDate());
-
-        if (currentUserRating > 0) {
-            for (let renderStars = 0; renderStars < currentUserRating; renderStars++) {
-                starsElement.text(starsElement.text() + '★');
-            }
-            starsElement.append(dateElement);
-        } else {
-            starsElement.text(':(');
+        if (currentUserRatingBoxTitle.length === 0) {
+            return;
         }
 
-        csfdRatingBox.append(starsElement);
+        currentUserRatingBoxTitle.text('Hodnoceno ' + currentUserRatingDate);
     }
 
 }
@@ -383,6 +372,7 @@ class ImageFloatingPreview {
         this.popup = $('<img>')
             .css({
                 'box-shadow': '5px 5px 14px 8px rgba(0,0,0,0.75)',
+                'z-index': 999,
             });
         $('body').append(this.popup);
 
@@ -452,6 +442,73 @@ class ImageFloatingPreview {
 
 }
 
+;// CONCATENATED MODULE: ./src/classes/CacheItem.js
+class CacheItem {
+
+    constructor(
+        name,
+        value,
+        expireAt
+    ) {
+        this.name = name;
+        this.expireAt = expireAt;
+        this.value = value;
+    }
+
+}
+
+;// CONCATENATED MODULE: ./src/classes/Cache.js
+
+
+class Cache {
+
+    constructor(
+        expirationInSeconds
+    ) {
+        this.expirationInSeconds = 600;
+        this.namespace = 'csfd-extended';
+    }
+
+    saveItem(
+        key,
+        value
+    ) {
+        let cacheItem = new CacheItem(
+            this.addNamespaceToName(key),
+            value,
+            Math.floor(Date.now() / 1000) + this.expirationInSeconds
+        )
+
+        localStorage.setItem(
+            this.addNamespaceToName(key),
+            JSON.stringify(cacheItem)
+        )
+    }
+
+    getItem(
+        key
+    ) {
+        let cacheItem = localStorage.getItem(
+            this.addNamespaceToName(key)
+        );
+
+        return cacheItem !== null
+            ? JSON.parse(cacheItem)
+            : null;
+    }
+
+    isItemExpired(
+        caheItem
+    ) {
+        return caheItem.expireAt < Math.floor(Date.now() / 1000);
+    }
+
+    addNamespaceToName(name) {
+        return this.namespace + '.' + name;
+    }
+
+}
+
 ;// CONCATENATED MODULE: ./src/index.js
 
 
@@ -460,8 +517,11 @@ class ImageFloatingPreview {
 
 
 
+
+let cache = new Cache(7 * 24 * 3600);
+
 let csfd = new Csfd($('div.page-content'));
-let omdb = new Omdb(csfd, 'ee2fe641');
+let omdb = new Omdb(csfd, 'ee2fe641', cache);
 let userRating = new UserRating(csfd);
 let wantToWatch = new WantToWatch(csfd);
 let toolbar = new Toolbar(csfd);

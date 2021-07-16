@@ -14,28 +14,53 @@ export default class ImdbRating {
         imdbRating,
         imdbVotes
     ) {
+        if (
+            imdbRating === undefined
+            || imdbRating === 'N/A'
+            || imdbVotes === undefined
+            || imdbVotes === 'N/A'
+        ) {
+            return;
+        }
+
         let imdbVotesSpan = $('<span>')
             .css({
                 'display': 'block',
-                'font-size': '11px',
-                'line-height': '15px',
-                'padding-bottom': '10px',
+                'font-size': '9px',
+                'font-weight': 'normal',
+                'line-height': '10px',
+                'padding-bottom': '8px',
             })
-            .html(imdbVotes);
+            .html('<strong>' + imdbVotes + '</strong> hlasů');
 
         let imdbRatingBox = $('<a>')
             .addClass('rating-average csfd-extended-imdb-rating')
             .css({
                 'display': 'block',
-                'background': '#F5C518',
                 'color': '#000000',
                 'cursor': 'pointer',
+                'line-height': '60px',
             })
             .attr('href', 'https://www.imdb.com/title/' + this.csfd.getImdbCode())
             .html(imdbRating)
             .append(imdbVotesSpan);
 
-        imdbRatingBox.insertBefore(this.csfd.csfdPage.find('.rating-fan-switch'));
+        imdbRatingBox
+            .hover(
+                (e) => {
+                    imdbRatingBox.css({
+                        'background': '#F5BE18FF',
+                    })
+                },
+                (e) => {
+                    imdbRatingBox.css({
+                        'background': '#F5C518',
+                    })
+                },
+            )
+            .trigger('mouseleave');
+
+        imdbRatingBox.insertBefore(this.csfd.csfdPage.find('.my-rating'));
     }
 
 }

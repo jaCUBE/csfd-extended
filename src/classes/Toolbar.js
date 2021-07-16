@@ -12,13 +12,13 @@ export default class Toolbar {
         let boxButtons = this.csfd.csfdPage.find('.box-rating-container .box-buttons');
 
         let imdbCode = this.csfd.getImdbCode();
-        let encodedMovieName = encodeURIComponent(this.csfd.getMovieName());
+        let encodedMovieNameWithYear = encodeURIComponent(this.csfd.getMovieName() + ' ' + this.csfd.getMovieYear());
 
         boxButtons.prepend(
             this.createButton(
                 'Titulky.com',
                 null,
-                'http://www.titulky.com/?Fulltext=' + encodedMovieName
+                'http://www.titulky.com/?Fulltext=' + encodedMovieNameWithYear
             ),
             this.createButton(
                 'Trakt.TV',
@@ -28,32 +28,32 @@ export default class Toolbar {
             this.createButton(
                 'Google',
                 null,
-                'https://www.google.cz/search?q=' + encodedMovieName
+                'https://www.google.cz/search?q=' + encodedMovieNameWithYear
             ),
             this.createButton(
                 'YouTube',
                 null,
-                'https://www.youtube.com/results?search_query=' + encodedMovieName
+                'https://www.youtube.com/results?search_query=' + encodedMovieNameWithYear
             ),
             this.createButton(
                 'BoxOffice',
                 null,
-                'http://www.boxofficemojo.com/search/?q=' + encodedMovieName
+                'http://www.boxofficemojo.com/search/?q=' + encodedMovieNameWithYear
             ),
             this.createButton(
                 'Uloz.to',
                 'pirate',
-                'http://www.uloz.to/hledej?media=video&protected=notPassword&redir=0&q=' + encodedMovieName
+                'http://www.uloz.to/hledej?media=video&protected=notPassword&redir=0&q=' + encodedMovieNameWithYear
             ),
             this.createButton(
                 'YIFY',
                 'pirate',
-                'https://www.google.cz/search?q=' + encodedMovieName + ' site:yts.ag OR site:yify-movies.net OR site:yify-movie.com'
+                'https://www.google.cz/search?q=' + encodedMovieNameWithYear + ' site:yts.ag OR site:yify-movies.net OR site:yify-movie.com'
             ),
             this.createButton(
                 'Torrent',
                 'pirate',
-                'http://www.aiosearch.com/search/4/Torrents/' + encodedMovieName
+                'http://www.aiosearch.com/search/4/Torrents/' + encodedMovieNameWithYear
             ),
         );
     }
@@ -78,18 +78,19 @@ export default class Toolbar {
             .css({
                 'background-color': backgroundColor,
                 'color': fontColor,
+                'padding-left': '6px',
             })
             .html('<i class="icon ' + iconClass + '"></i>' + name);
 
         button.hover(
             (e) => {
-                $(e.target).animate({
+                $(e.target).css({
                     'opacity': 1.0,
                 });
             },
             (e) => {
-                $(e.target).animate({
-                    'opacity': 0.8,
+                $(e.target).css({
+                    'opacity': 0.95,
                 });
             },
         );

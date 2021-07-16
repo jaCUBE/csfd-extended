@@ -4,6 +4,10 @@ export default class Csfd {
         this.csfdPage = csfdPage
     }
 
+    isLoggedIn() {
+        return this.csfdPage.find('.my-rating').length > 0;
+    }
+
     getImdbCode() {
         let imdbButton = this.csfdPage.find('a.button-imdb');
 
@@ -12,36 +16,14 @@ export default class Csfd {
             : null;
     }
 
-    getCurrentUserRating() {
-        let rating = this.csfdPage.find('.current-user-rating .stars');
-
-        if (rating.length === 0) {
-            return null;
-        }
-
-        if (rating.find('.trash').length > 0) {
-            return 0;
-        }
-
-        for(let stars = 0; stars <= 5; stars++) {
-            if (rating.hasClass('stars-' + stars)) {
-                return stars;
-            }
-        }
-    }
-
     getCurrentUserRatingDate() {
         let ratingDateInText = this.csfdPage.find('.current-user-rating > span').attr('title');
 
-        if (ratingDateInText.length === 0) {
+        if (ratingDateInText === undefined) {
             return null;
         }
 
         return ratingDateInText.match(/.+(\d{2}\.\d{2}\.\d{4})$/)[1];
-    }
-
-    isRated() {
-        return this.csfdPage.find('.box-rating-container .not-rated').length === 0;
     }
 
     isMarkedAsWantToWatch() {
@@ -52,15 +34,11 @@ export default class Csfd {
     }
 
     getMovieName() {
-        let title = $('meta[property=\'og:title\']').attr('content');
-        title = title.replace(/\(TV seriál\)/, '');
-        title = title.replace(/\(TV film\)/, '');
-        let titleRegex = title.match(/(.+)\((\d{4})\)/);
+        return $.trim($('[itemprop="name"]').text());
+    }
 
-        let name = titleRegex[1];
-        name = name.replace(/.+\//, '');
-
-        return $.trim(name);
+    getMovieYear() {
+        return $.trim($('[itemprop="dateCreated"]').text());
     }
 
 }

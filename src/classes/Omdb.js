@@ -4,10 +4,12 @@ export default class Omdb {
 
     constructor(
         csfd,
-        omdbApiKey
+        omdbApiKey,
+        cache
     ) {
         this.csfd = csfd;
         this.omdbApiKey = omdbApiKey;
+        this.cache = cache;
 
         this.getResponse();
     }
@@ -15,7 +17,21 @@ export default class Omdb {
     getResponse() {
         let imdbCode = this.csfd.getImdbCode();
 
-        if (imdbCode === null || !this.csfd.isRated()) {
+        if (imdbCode === null) {
+            return;
+        }
+
+        let cacheItem = this.cache.getItem(imdbCode);
+
+        if (cacheItem !== null && !this.cache.isItemExpired(cacheItem)) {
+            let responseFromCache = cacheItem.value;
+
+            new ImdbRating(
+                this.csfd,
+                responseFromCache.imdbRating,
+                responseFromCache.imdbVotes
+            );
+
             return;
         }
 
@@ -30,6 +46,13 @@ export default class Omdb {
         });
 
         request.done((response) => {
+            if (
+                response.imdbRating !== undefined
+                && response.imdbRating !== 'N/A'
+            ) {
+                this.cache.saveItem(imdbCode, response);
+            }
+
             new ImdbRating(
                 this.csfd,
                 response.imdbRating,

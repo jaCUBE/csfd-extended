@@ -14,6 +14,7 @@ export default class ImageFloatingPreview {
         this.popup = $('<img>')
             .css({
                 'box-shadow': '5px 5px 14px 8px rgba(0,0,0,0.75)',
+                'z-index': 999,
             });
         $('body').append(this.popup);
 
