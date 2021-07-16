@@ -218,9 +218,14 @@ class Toolbar {
                 'http://www.boxofficemojo.com/search/?q=' + encodedMovieNameWithYear
             ),
             this.createButton(
+                'Simkl.com',
+                null,
+                'https://simkl.com/search/?type=tv&q=' + encodedMovieNameWithYear
+            ),
+            this.createButton(
                 'Uloz.to',
                 'pirate',
-                'http://www.uloz.to/hledej?media=video&protected=notPassword&redir=0&q=' + encodedMovieNameWithYear
+                'https://ulozto.sk/hledej?type=videos&videoQuality=high&videoDuration=longest&q=' + encodedMovieNameWithYear
             ),
             this.createButton(
                 'YIFY',
