@@ -1,3 +1,14 @@
+// ==UserScript==
+// @name         ČSFD Extended
+// @version      2.8.2
+// @description  Rozšíření profilů filmů na ČSFD o funkce jako je hodnocení IMDB či odkaz na Ulož.to.
+// @author       Jakub Rychecký <jakub@rychecky.cz>
+// @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js
+// @license      WTFPL 2
+// @include      *csfd.cz/film/*
+// @include      *csfd.sk/film/*
+// @namespace CSFD-E
+// ==/UserScript==
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 var __webpack_exports__ = {};
@@ -31,10 +42,6 @@ class Csfd {
         return ratingDateInText.match(/.+(\d{2}\.\d{2}\.\d{4})$/)[1];
     }
 
-    isRated() {
-        return this.csfdPage.find('.box-rating-container .not-rated').length === 0;
-    }
-
     isMarkedAsWantToWatch() {
         let controlPanelText = this.csfdPage.find('.control-panel').text();
 
@@ -46,6 +53,10 @@ class Csfd {
         return $.trim($('[itemprop="name"]').text());
     }
 
+    getEnMovieName() {
+        return $.trim($('li.more-names').text()).replace(/\t/g, '').replace("(méně)", '').replace(/\n/g, '');
+    }
+  
     getMovieYear() {
         return $.trim($('[itemprop="dateCreated"]').text());
     }
@@ -69,6 +80,15 @@ class ImdbRating {
         imdbRating,
         imdbVotes
     ) {
+        if (
+            imdbRating === undefined
+            || imdbRating === 'N/A'
+            || imdbVotes === undefined
+            || imdbVotes === 'N/A'
+        ) {
+            return;
+        }
+
         let imdbVotesSpan = $('<span>')
             .css({
                 'display': 'block',
@@ -131,7 +151,7 @@ class Omdb {
     getResponse() {
         let imdbCode = this.csfd.getImdbCode();
 
-        if (imdbCode === null || !this.csfd.isRated()) {
+        if (imdbCode === null) {
             return;
         }
 
@@ -160,7 +180,12 @@ class Omdb {
         });
 
         request.done((response) => {
-            this.cache.saveItem(imdbCode, response);
+            if (
+                response.imdbRating !== undefined
+                && response.imdbRating !== 'N/A'
+            ) {
+                this.cache.saveItem(imdbCode, response);
+            }
 
             new ImdbRating(
                 this.csfd,
@@ -190,6 +215,7 @@ class Toolbar {
 
         let imdbCode = this.csfd.getImdbCode();
         let encodedMovieNameWithYear = encodeURIComponent(this.csfd.getMovieName() + ' ' + this.csfd.getMovieYear());
+        let encodedEnMovieNameWithYear = encodeURIComponent(this.csfd.getEnMovieName() + ' ' + this.csfd.getMovieYear());
 
         boxButtons.prepend(
             this.createButton(
@@ -220,7 +246,7 @@ class Toolbar {
             this.createButton(
                 'Simkl.com',
                 null,
-                'https://simkl.com/search/?type=tv&q=' + encodedMovieNameWithYear
+                'https://simkl.com/search/?type=tv&q=' + encodedEnMovieNameWithYear
             ),
             this.createButton(
                 'Uloz.to',
