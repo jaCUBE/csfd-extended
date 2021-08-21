@@ -249,6 +249,11 @@ class Toolbar {
                 'https://simkl.com/search/?type=tv&q=' + encodedEnMovieNameWithYear
             ),
             this.createButton(
+                'IMDB',
+                null,
+                'https://www.imdb.com/find?q=' + encodedEnMovieNameWithYear
+            ),
+            this.createButton(
                 'Uloz.to',
                 'pirate',
                 'https://ulozto.sk/hledej?type=videos&videoQuality=high&videoDuration=longest&q=' + encodedMovieNameWithYear
