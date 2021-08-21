@@ -54,7 +54,7 @@ class Csfd {
     }
 
     getEnMovieName() {
-        return $.trim($('li.more-names').text()).replace(/\t/g, '').replace("(méně)", '').replace(/\n/g, '');
+        return $.trim($('ul.film-names').text()).replace(/\t/g, '').replace("(méně)", '').replace(/\n/g, '');
     }
   
     getMovieYear() {
