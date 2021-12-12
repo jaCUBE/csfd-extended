@@ -34,7 +34,7 @@ export default class Csfd {
     }
 
     getMovieName() {
-        return $.trim($('[itemprop="name"]').text());
+        return $.trim($('.film-header-name > h1').text());
     }
 
     getMovieYear() {
