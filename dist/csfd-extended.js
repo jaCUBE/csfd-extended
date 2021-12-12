@@ -31,10 +31,6 @@ class Csfd {
         return ratingDateInText.match(/.+(\d{2}\.\d{2}\.\d{4})$/)[1];
     }
 
-    isRated() {
-        return this.csfdPage.find('.box-rating-container .not-rated').length === 0;
-    }
-
     isMarkedAsWantToWatch() {
         let controlPanelText = this.csfdPage.find('.control-panel').text();
 
@@ -69,6 +65,15 @@ class ImdbRating {
         imdbRating,
         imdbVotes
     ) {
+        if (
+            imdbRating === undefined
+            || imdbRating === 'N/A'
+            || imdbVotes === undefined
+            || imdbVotes === 'N/A'
+        ) {
+            return;
+        }
+
         let imdbVotesSpan = $('<span>')
             .css({
                 'display': 'block',
@@ -131,7 +136,7 @@ class Omdb {
     getResponse() {
         let imdbCode = this.csfd.getImdbCode();
 
-        if (imdbCode === null || !this.csfd.isRated()) {
+        if (imdbCode === null) {
             return;
         }
 
@@ -160,7 +165,12 @@ class Omdb {
         });
 
         request.done((response) => {
-            this.cache.saveItem(imdbCode, response);
+            if (
+                response.imdbRating !== undefined
+                && response.imdbRating !== 'N/A'
+            ) {
+                this.cache.saveItem(imdbCode, response);
+            }
 
             new ImdbRating(
                 this.csfd,
