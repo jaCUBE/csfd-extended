@@ -33,12 +33,8 @@ export default class Csfd {
             || controlPanelText.includes('Upraviť v Chcem vidieť');
     }
 
-    getMovieName() {
-        return $.trim($('.film-header-name > h1').text());
-    }
-
-    getMovieYear() {
-        return $.trim($('[itemprop="dateCreated"]').text());
+    getOpenGraphTitle() {
+        return $('meta[property="og:title"]').attr('content');
     }
 
 }

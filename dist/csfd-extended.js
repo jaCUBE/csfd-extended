@@ -38,12 +38,8 @@ class Csfd {
             || controlPanelText.includes('Upraviť v Chcem vidieť');
     }
 
-    getMovieName() {
-        return $.trim($('.film-header-name > h1').text());
-    }
-
-    getMovieYear() {
-        return $.trim($('[itemprop="dateCreated"]').text());
+    getOpenGraphTitle() {
+        return $('meta[property="og:title"]').attr('content');
     }
 
 }
@@ -199,13 +195,13 @@ class Toolbar {
         let boxButtons = this.csfd.csfdPage.find('.box-rating-container .box-buttons');
 
         let imdbCode = this.csfd.getImdbCode();
-        let encodedMovieNameWithYear = encodeURIComponent(this.csfd.getMovieName() + ' ' + this.csfd.getMovieYear());
+        let encodedOpenGraphTitle = encodeURIComponent(this.csfd.getOpenGraphTitle());
 
         boxButtons.prepend(
             this.createButton(
                 'Titulky.com',
                 null,
-                'http://www.titulky.com/?Fulltext=' + encodedMovieNameWithYear
+                'http://www.titulky.com/?Fulltext=' + encodedOpenGraphTitle
             ),
             this.createButton(
                 'Trakt.TV',
@@ -215,32 +211,32 @@ class Toolbar {
             this.createButton(
                 'Google',
                 null,
-                'https://www.google.cz/search?q=' + encodedMovieNameWithYear
+                'https://www.google.cz/search?q=' + encodedOpenGraphTitle
             ),
             this.createButton(
                 'YouTube',
                 null,
-                'https://www.youtube.com/results?search_query=' + encodedMovieNameWithYear
+                'https://www.youtube.com/results?search_query=' + encodedOpenGraphTitle
             ),
             this.createButton(
                 'BoxOffice',
                 null,
-                'http://www.boxofficemojo.com/search/?q=' + encodedMovieNameWithYear
+                'http://www.boxofficemojo.com/search/?q=' + encodedOpenGraphTitle
             ),
             this.createButton(
                 'Uloz.to',
                 'pirate',
-                'http://www.uloz.to/hledej?media=video&protected=notPassword&redir=0&q=' + encodedMovieNameWithYear
+                'http://www.uloz.to/hledej?media=video&protected=notPassword&redir=0&q=' + encodedOpenGraphTitle
             ),
             this.createButton(
                 'YIFY',
                 'pirate',
-                'https://www.google.cz/search?q=' + encodedMovieNameWithYear + ' site:yts.ag OR site:yify-movies.net OR site:yify-movie.com'
+                'https://www.google.cz/search?q=' + encodedOpenGraphTitle + ' site:yts.ag OR site:yify-movies.net OR site:yify-movie.com'
             ),
             this.createButton(
                 'Torrent',
                 'pirate',
-                'http://www.aiosearch.com/search/4/Torrents/' + encodedMovieNameWithYear
+                'http://www.aiosearch.com/search/4/Torrents/' + encodedOpenGraphTitle
             ),
         );
     }
