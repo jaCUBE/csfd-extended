@@ -87,6 +87,9 @@ class ImdbRating {
                 'color': '#000000',
                 'cursor': 'pointer',
                 'line-height': '60px',
+                'text-align': 'center',
+                'font-size': '40px',
+                'font-weight': 'bold',
             })
             .attr('href', 'https://www.imdb.com/title/' + this.csfd.getImdbCode())
             .html(imdbRating)
