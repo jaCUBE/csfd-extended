@@ -1,6 +1,6 @@
 {
   "name": "csfd-exteded",
-  "version": "2.8.5",
+  "version": "2.9.0",
   "description": "Client-side Javascript for csfd.cz",
   "main": "src/index.js",
   "repository": {
