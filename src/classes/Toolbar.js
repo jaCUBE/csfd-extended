@@ -48,7 +48,7 @@ export default class Toolbar {
             this.createButton(
                 'YIFY',
                 'pirate',
-                'https://www.google.cz/search?q=' + encodedOpenGraphTitle + ' site:yts.ag OR site:yify-movies.net OR site:yify-movie.com'
+                'https://www.google.cz/search?q=' + encodedOpenGraphTitle + ' site:yts.mx OR site:yify-movies.net OR site:yify-movie.com'
             ),
             this.createButton(
                 'Torrent',
