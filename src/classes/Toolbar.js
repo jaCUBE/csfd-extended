@@ -26,6 +26,11 @@ export default class Toolbar {
                 'https://trakt.tv/search/imdb?q=' + imdbCode
             ),
             this.createButton(
+                'JustWatch',
+                null,
+                'https://www.justwatch.com/cz/vyhled%C3%A1n%C3%AD?q=' + encodedOpenGraphTitle
+            ),
+            this.createButton(
                 'Google',
                 null,
                 'https://www.google.cz/search?q=' + encodedOpenGraphTitle

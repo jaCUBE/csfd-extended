@@ -212,6 +212,11 @@ class Toolbar {
                 'https://trakt.tv/search/imdb?q=' + imdbCode
             ),
             this.createButton(
+                'JustWatch',
+                null,
+                'https://www.justwatch.com/cz/vyhled%C3%A1n%C3%AD?q=' + encodedOpenGraphTitle
+            ),
+            this.createButton(
                 'Google',
                 null,
                 'https://www.google.cz/search?q=' + encodedOpenGraphTitle
@@ -234,7 +239,7 @@ class Toolbar {
             this.createButton(
                 'YIFY',
                 'pirate',
-                'https://www.google.cz/search?q=' + encodedOpenGraphTitle + ' site:yts.ag OR site:yify-movies.net OR site:yify-movie.com'
+                'https://www.google.cz/search?q=' + encodedOpenGraphTitle + ' site:yts.mx OR site:yify-movies.net'
             ),
             this.createButton(
                 'Torrent',
