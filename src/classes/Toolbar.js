@@ -12,13 +12,13 @@ export default class Toolbar {
         let boxButtons = this.csfd.csfdPage.find('.box-rating-container .box-buttons');
 
         let imdbCode = this.csfd.getImdbCode();
-        let encodedOpenGraphTitle = encodeURIComponent(this.csfd.getOpenGraphTitle());
+        let encodedLinkingDataMovieTitle = encodeURIComponent(this.csfd.getLinkingDataMovieTitle());
 
         boxButtons.prepend(
             this.createButton(
                 'Titulky.com',
                 null,
-                'http://www.titulky.com/?Fulltext=' + encodedOpenGraphTitle
+                'http://www.titulky.com/?Fulltext=' + encodedLinkingDataMovieTitle
             ),
             this.createButton(
                 'Trakt.TV',
@@ -28,37 +28,37 @@ export default class Toolbar {
             this.createButton(
                 'JustWatch',
                 null,
-                'https://www.justwatch.com/cz/vyhled%C3%A1n%C3%AD?q=' + encodedOpenGraphTitle
+                'https://www.justwatch.com/cz/vyhled%C3%A1n%C3%AD?q=' + encodedLinkingDataMovieTitle
             ),
             this.createButton(
                 'Google',
                 null,
-                'https://www.google.cz/search?q=' + encodedOpenGraphTitle
+                'https://www.google.cz/search?q=' + encodedLinkingDataMovieTitle
             ),
             this.createButton(
                 'YouTube',
                 null,
-                'https://www.youtube.com/results?search_query=' + encodedOpenGraphTitle
+                'https://www.youtube.com/results?search_query=' + encodedLinkingDataMovieTitle
             ),
             this.createButton(
                 'BoxOffice',
                 null,
-                'http://www.boxofficemojo.com/search/?q=' + encodedOpenGraphTitle
+                'http://www.boxofficemojo.com/search/?q=' + encodedLinkingDataMovieTitle
             ),
             this.createButton(
                 'Uloz.to',
                 'pirate',
-                'http://www.uloz.to/hledej?media=video&protected=notPassword&redir=0&q=' + encodedOpenGraphTitle
+                'http://www.uloz.to/hledej?media=video&protected=notPassword&redir=0&q=' + encodedLinkingDataMovieTitle
             ),
             this.createButton(
                 'YIFY',
                 'pirate',
-                'https://www.google.cz/search?q=' + encodedOpenGraphTitle + ' site:yts.mx OR site:yify-movies.net'
+                'https://www.google.cz/search?q=' + encodedLinkingDataMovieTitle + ' site:yts.mx OR site:yify-movies.net'
             ),
             this.createButton(
                 'Torrent',
                 'pirate',
-                'http://www.aiosearch.com/search/4/Torrents/' + encodedOpenGraphTitle
+                'http://www.aiosearch.com/search/4/Torrents/' + encodedLinkingDataMovieTitle
             ),
         );
     }

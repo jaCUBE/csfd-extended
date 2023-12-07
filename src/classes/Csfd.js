@@ -33,8 +33,10 @@ export default class Csfd {
             || controlPanelText.includes('Upraviť v Chcem vidieť');
     }
 
-    getOpenGraphTitle() {
-        return $('meta[property="og:title"]').attr('content');
+    getLinkingDataMovieTitle() {
+        let linkingDataJson = JSON.parse($('script[type="application/ld+json"]')[0].innerHTML);
+
+        return linkingDataJson.name + ' ' + linkingDataJson.dateCreated;
     }
 
 }
