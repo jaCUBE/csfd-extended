@@ -24,7 +24,7 @@
     ```
     // ==UserScript==
     // @name         [DEV] CSFD Extended
-    // @description  DEVELOPER VERSION. Make your eyes *not* to bleed with new board.
+    // @description  DEVELOPER VERSION.
     // @include      *csfd.cz/film/*
     // @require      <------REPLACE-ME-WITH-YOUR-FILEPATH------>
     // @grant        GM_setValue
