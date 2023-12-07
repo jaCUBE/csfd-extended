@@ -234,9 +234,9 @@ class Toolbar {
                 'http://www.boxofficemojo.com/search/?q=' + encodedLinkingDataMovieTitle
             ),
             this.createButton(
-                'Uloz.to',
+                'Webshare.cz',
                 'pirate',
-                'http://www.uloz.to/hledej?media=video&protected=notPassword&redir=0&q=' + encodedLinkingDataMovieTitle
+                'https://webshare.cz/#/search?what=' + encodedLinkingDataMovieTitle
             ),
             this.createButton(
                 'YIFY',
