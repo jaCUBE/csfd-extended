@@ -49,7 +49,7 @@ export default class Toolbar {
                     'height': '16px',
                 }),
             this.createButton(
-                'Webshare.cz',
+                'Webshare',
                 'https://webshare.cz/#/search?what=' + encodedLinkingDataMovieTitle
             ),
             this.createButton(
