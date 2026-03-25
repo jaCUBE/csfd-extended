@@ -399,7 +399,7 @@ class ImageFloatingPreview {
                 return;
             }
 
-            let creatorImageUrl = $(response).find('.creator-profile-content>figure img').attr('src');
+            let creatorImageUrl = $(response).find('.creator-profile-header>figure img').attr('src');
 
             if (creatorImageUrl !== undefined) {
                 this.showPopup(creatorImageUrl);
