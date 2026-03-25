@@ -241,12 +241,8 @@ class Toolbar {
                 'https://webshare.cz/#/search?what=' + encodedLinkingDataMovieTitle
             ),
             this.createButton(
-                'YIFY',
-                'https://www.google.cz/search?q=' + encodedLinkingDataMovieTitle + ' site:yts.mx OR site:yify-movies.net'
-            ),
-            this.createButton(
-                'Torrent',
-                'http://www.aiosearch.com/search/4/Torrents/' + encodedLinkingDataMovieTitle
+                'Sk-CzTorrent',
+                'https://sktorrent.eu/torrent/torrents_v2.php?search=' + encodedLinkingDataMovieTitle
             ),
         );
 
