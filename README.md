@@ -29,11 +29,14 @@
     // @require      <------REPLACE-ME-WITH-YOUR-FILEPATH------>
     // @grant        GM_setValue
     // @grant        GM_getValue
+    // @grant        GM_registerMenuCommand
     // ==/UserScript==
     ```
 
 
 6. Easily switch between production version linked to GreasyFork and your local file.
+
+**Note:** The script stores the OMDb API key using `GM_setValue`/`GM_getValue` and lets the user enter it via the Tampermonkey menu command (`GM_registerMenuCommand`). All three grants must be present in the userscript header (including the production one), otherwise the API key cannot be set.
 
 ## How to compile for production?
 Run `npx webpack --mode="production"`
