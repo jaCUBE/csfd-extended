@@ -1,5 +1,5 @@
 {
-  "name": "csfd-exteded",
+  "name": "csfd-extended",
   "version": "3.1.0",
   "description": "Client-side Javascript for csfd.cz",
   "main": "src/index.js",
